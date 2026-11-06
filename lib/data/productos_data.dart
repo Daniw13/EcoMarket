@@ -1,0 +1,68 @@
+import '../domain/entities/producto.dart';
+
+const List<Producto> productos = <Producto>[
+  Producto(
+    id: 'prod-001',
+    nombre: 'Manzanas orgánicas',
+    categoria: 'Frutas',
+    imagenUrl: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6',
+    precio: 2.50,
+    stock: 30,
+  ),
+  Producto(
+    id: 'prod-002',
+    nombre: 'Plátanos orgánicos',
+    categoria: 'Frutas',
+    imagenUrl: 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e',
+    precio: 1.80,
+    stock: 25,
+  ),
+  Producto(
+    id: 'prod-003',
+    nombre: 'Fresas frescas',
+    categoria: 'Frutas',
+    imagenUrl: 'https://images.unsplash.com/photo-1464965911861-746a04b4bca6',
+    precio: 3.20,
+    stock: 18,
+  ),
+  Producto(
+    id: 'prod-004',
+    nombre: 'Espinaca orgánica',
+    categoria: 'Verduras',
+    imagenUrl: 'https://images.unsplash.com/photo-1576045057995-568f588f82fb',
+    precio: 2.10,
+    stock: 20,
+  ),
+  Producto(
+    id: 'prod-005',
+    nombre: 'Zanahorias',
+    categoria: 'Verduras',
+    imagenUrl: 'https://images.unsplash.com/photo-1445282768818-728615cc910a',
+    precio: 1.60,
+    stock: 0,
+  ),
+  Producto(
+    id: 'prod-006',
+    nombre: 'Tomates orgánicos',
+    categoria: 'Verduras',
+    imagenUrl: 'https://images.unsplash.com/photo-1546094096-0df4bcaaa337',
+    precio: 2.30,
+    stock: 22,
+  ),
+  Producto(
+    id: 'prod-007',
+    nombre: 'Leche de avena',
+    categoria: 'Despensa',
+    imagenUrl: 'https://images.unsplash.com/photo-1550583724-b2692b85b150',
+    precio: 3.50,
+    stock: 14,
+  ),
+  Producto(
+    id: 'prod-008',
+    nombre: 'Quinoa orgánica',
+    categoria: 'Despensa',
+    imagenUrl: 'https://images.unsplash.com/photo-1586201375761-83865001e31c',
+    precio: 4.75,
+    stock: 12,
+  ),
+];
