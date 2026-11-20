@@ -19,14 +19,15 @@ const _oliva = Color(0xFF767522);
 @pragma('vm:entry-point')
 void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) async {
-    debugPrint('Sincronizando inventario en segundo plano...');
+    // ignore: avoid_print
+    print('Sincronizando inventario en segundo plano...');
     return Future.value(true);
   });
 }
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await NotificacionesService.instance.init();
+  await NotificacionesService().init();
   await Workmanager().initialize(callbackDispatcher);
   await Workmanager().registerPeriodicTask(
     'ecomarket-inventario-periodico',
@@ -163,7 +164,6 @@ class _MainAppState extends State<MainApp> {
                                   builder: (checkoutContext) => CheckoutView(
                                     total: controller.total,
                                     onConfirmar: () {
-                                      final totalPagado = controller.total;
                                       if (!controller.confirmarCompra()) {
                                         ScaffoldMessenger.of(
                                           checkoutContext,
@@ -180,10 +180,6 @@ class _MainAppState extends State<MainApp> {
                                         );
                                         return;
                                       }
-                                      NotificacionesService.instance
-                                          .mostrarNotificacionCompra(
-                                            totalPagado,
-                                          );
                                       Navigator.of(checkoutContext).pop();
                                       setState(() => _mostrarRastreo = true);
                                     },

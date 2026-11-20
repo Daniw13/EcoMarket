@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../data/services/notificaciones_service.dart';
+
 class CheckoutView extends StatefulWidget {
   final double total;
   final VoidCallback onConfirmar;
@@ -17,8 +19,9 @@ class CheckoutView extends StatefulWidget {
 class _CheckoutViewState extends State<CheckoutView> {
   final _formKey = GlobalKey<FormState>();
 
-  void _confirmarPago() {
+  Future<void> _confirmarPago() async {
     if (_formKey.currentState!.validate()) {
+      await NotificacionesService().mostrarNotificacionCompra(widget.total);
       widget.onConfirmar();
     }
   }
