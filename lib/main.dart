@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:workmanager/workmanager.dart';
 
 import 'data/entrega_service.dart';
+import 'data/services/notificaciones_service.dart';
 import 'domain/entities/producto.dart';
 import 'presentation/controllers/catalogo_controller.dart';
 import 'presentation/views/catalogo_view.dart';
@@ -14,7 +16,25 @@ const _terracota = Color(0xFF994636);
 const _verdeSalvia = Color(0xFF619B8A);
 const _oliva = Color(0xFF767522);
 
-void main() {
+@pragma('vm:entry-point')
+void callbackDispatcher() {
+  Workmanager().executeTask((task, inputData) async {
+    debugPrint('Sincronizando inventario en segundo plano...');
+    return Future.value(true);
+  });
+}
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await NotificacionesService.instance.init();
+  await Workmanager().initialize(callbackDispatcher);
+  await Workmanager().registerPeriodicTask(
+    'ecomarket-inventario-periodico',
+    'sincronizar_inventario',
+    frequency: const Duration(minutes: 15),
+    constraints: Constraints(networkType: NetworkType.connected),
+  );
+
   runApp(const MainApp());
 }
 
@@ -143,6 +163,7 @@ class _MainAppState extends State<MainApp> {
                                   builder: (checkoutContext) => CheckoutView(
                                     total: controller.total,
                                     onConfirmar: () {
+                                      final totalPagado = controller.total;
                                       if (!controller.confirmarCompra()) {
                                         ScaffoldMessenger.of(
                                           checkoutContext,
@@ -159,6 +180,10 @@ class _MainAppState extends State<MainApp> {
                                         );
                                         return;
                                       }
+                                      NotificacionesService.instance
+                                          .mostrarNotificacionCompra(
+                                            totalPagado,
+                                          );
                                       Navigator.of(checkoutContext).pop();
                                       setState(() => _mostrarRastreo = true);
                                     },
