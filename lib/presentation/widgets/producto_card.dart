@@ -24,21 +24,25 @@ class ProductoCard extends StatelessWidget {
             SizedBox(
               height: 80,
               width: double.infinity,
-              child: Image.network(
-                producto.imagenUrl,
-                fit: BoxFit.cover,
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress == null) return child;
-                  return const Center(
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  );
-                },
-                errorBuilder: (context, error, stackTrace) {
-                  return const Center(
-                    child: Icon(Icons.broken_image_outlined, size: 40),
-                  );
-                },
-              ),
+              child: producto.imagenUrl.isEmpty
+                  ? const Center(
+                      child: Icon(Icons.broken_image_outlined, size: 40),
+                    )
+                  : Image.network(
+                      producto.imagenUrl,
+                      fit: BoxFit.cover,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return const Center(
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        );
+                      },
+                      errorBuilder: (context, error, stackTrace) {
+                        return const Center(
+                          child: Icon(Icons.broken_image_outlined, size: 40),
+                        );
+                      },
+                    ),
             ),
             const SizedBox(height: 8),
             Text(

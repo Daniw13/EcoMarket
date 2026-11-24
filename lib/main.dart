@@ -120,6 +120,7 @@ class _MainAppState extends State<MainApp> {
                   productos: controller.productosFiltrados,
                   categorias: controller.categorias,
                   categoriaSeleccionada: controller.categoriaSeleccionada,
+                  totalArticulos: controller.totalArticulos,
                   onAgregar: controller.agregarAlCarrito,
                   onSeleccionarCategoria: controller.filtrarPorCategoria,
                   onReabastecer: controller.reabastecer,

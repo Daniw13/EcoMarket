@@ -33,6 +33,9 @@ class CatalogoController extends ChangeNotifier {
 
   Map<String, int> get carrito => Map<String, int>.unmodifiable(_carrito);
 
+  int get totalArticulos =>
+      _carrito.values.fold(0, (total, cantidad) => total + cantidad);
+
   double get total {
     var resultado = 0.0;
     for (final producto in _productos) {

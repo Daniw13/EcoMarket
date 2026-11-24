@@ -7,6 +7,7 @@ class CatalogoView extends StatelessWidget {
   final List<Producto> productos;
   final List<String> categorias;
   final String? categoriaSeleccionada;
+  final int totalArticulos;
   final ValueChanged<Producto> onAgregar;
   final ValueChanged<String?> onSeleccionarCategoria;
   final VoidCallback onReabastecer;
@@ -16,6 +17,7 @@ class CatalogoView extends StatelessWidget {
     required this.productos,
     required this.categorias,
     required this.categoriaSeleccionada,
+    required this.totalArticulos,
     required this.onAgregar,
     required this.onSeleccionarCategoria,
     required this.onReabastecer,
@@ -30,6 +32,12 @@ class CatalogoView extends StatelessWidget {
             pinned: true,
             expandedHeight: 150,
             actions: [
+              Center(
+                child: Badge(
+                  label: Text('$totalArticulos'),
+                  child: const Icon(Icons.shopping_cart_outlined),
+                ),
+              ),
               IconButton(
                 onPressed: onReabastecer,
                 tooltip: 'Reabastecer',
