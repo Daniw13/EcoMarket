@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class CheckoutView extends StatefulWidget {
   final double total;
-  final VoidCallback onConfirmar;
+  final Future<void> Function() onConfirmar;
 
   const CheckoutView({
     super.key,
@@ -17,9 +17,9 @@ class CheckoutView extends StatefulWidget {
 class _CheckoutViewState extends State<CheckoutView> {
   final _formKey = GlobalKey<FormState>();
 
-  void _confirmarPago() {
+  Future<void> _confirmarPago() async {
     if (_formKey.currentState!.validate()) {
-      widget.onConfirmar();
+      await widget.onConfirmar();
     }
   }
 

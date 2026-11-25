@@ -7,6 +7,10 @@ import 'presentation/views/catalogo_view.dart';
 import 'presentation/views/checkout_view.dart';
 import 'presentation/widgets/rastreo_entrega.dart';
 
+import 'package:workmanager/workmanager.dart';
+
+import 'data/services/notificaciones_service.dart';
+
 const _azulPetroleo = Color(0xFF2C4251);
 const _verdeBosque = Color(0xFF3F612D);
 const _crema = Color(0xFFFFEEDB);
@@ -14,7 +18,27 @@ const _terracota = Color(0xFF994636);
 const _verdeSalvia = Color(0xFF619B8A);
 const _oliva = Color(0xFF767522);
 
-void main() {
+@pragma('vm:entry-point')
+void callbackDispatcher() {
+  Workmanager().executeTask((task, inputData) async {
+    debugPrint('Sincronización silenciosa de inventario ejecutada: $task');
+    return Future.value(true);
+  });
+}
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await NotificacionesService().inicializar();
+
+  await Workmanager().initialize(callbackDispatcher);
+  await Workmanager().registerPeriodicTask(
+    'sync_inventario_id',
+    'sync_inventario',
+    frequency: const Duration(minutes: 15),
+    constraints: Constraints(networkType: NetworkType.connected),
+  );
+
   runApp(const MainApp());
 }
 
@@ -142,7 +166,7 @@ class _MainAppState extends State<MainApp> {
                                 MaterialPageRoute<void>(
                                   builder: (checkoutContext) => CheckoutView(
                                     total: controller.total,
-                                    onConfirmar: () {
+                                    onConfirmar: () async {
                                       if (!controller.confirmarCompra()) {
                                         ScaffoldMessenger.of(
                                           checkoutContext,
@@ -159,6 +183,11 @@ class _MainAppState extends State<MainApp> {
                                         );
                                         return;
                                       }
+                                      await NotificacionesService()
+                                          .mostrarNotificacionCompra(
+                                            controller.total,
+                                          );
+                                      if (!checkoutContext.mounted) return;
                                       Navigator.of(checkoutContext).pop();
                                       setState(() => _mostrarRastreo = true);
                                     },
